@@ -1,16 +1,11 @@
-
-import { actions } from './actions'
-const { LOGINCHECK, LOGOUTCHECK } = actions.type;
-
-
-// why saying it's predictable???
-// It's because all rules has been written clearly in the reducer, about what the initail states are, and what type of states are going to return..
-
+// 其实这里也可以引入actionCreator的。。。。。。
 export function CounterReducer(state = 0, action) {
+    console.log(action)
+    // retrieve the types from actionCreators
     switch (action.type) {
-        case LOGINCHECK:
+        case 'INCREMENT':
             return state + 1
-        case LOGOUTCHECK:
+        case 'DECREMENT':
             return state - 1
         default:
             return state
