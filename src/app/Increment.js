@@ -1,48 +1,28 @@
 // 然后我们把action引进来
 import React from 'react';
 import { actions } from './actions'
-import { store } from '../App'
-
+import { connect } from 'react-redux';
 const { LOGINCHECK, LOGOUTCHECK } = actions.type;
-
-export default class Increment extends React.Component {
+class Increment extends React.Component {
     constructor(props) {
         super(props);
     }
 
-
     handleNumValue1 = () => {
-        store.dispatch({ type: LOGINCHECK })
-        // so without thunk, action must be plain objects.
-        console.log(LOGINCHECK)
+        this.props.Increment()
     }
-
 
     handleNumValue2 = () => {
-        store.dispatch({ type: LOGOUTCHECK })
-    }
-
-
-    AsyncDis = () => {
-        // Thunk is actually a function...
-        // it can delay the dispatch... to be excuted...
-        return dispatch => {
-            setTimeout(() => {
-                // Yay! Can invoke sync or async actions with `dispatch`
-                store.dispatch({ type: LOGOUTCHECK })
-            }, 2000);
-        }
+        this.props.Decrement()
     }
 
     handleAsync = () => {
-        store.dispatch(this.AsyncDis())
+        this.props.Decrement_async()
     }
 
     render() {
-        //这个相当于一个public property了。。虽然JS中没有public和private的概念但是通过这种方式也可以
-        // dasds
         return (
-            <div >
+            <div>
                 <button onClick={this.handleNumValue1}>LoginCheck</button>
                 <button onClick={this.handleNumValue2}>LogoutCheck</button>
                 <button onClick={this.handleAsync}>Async</button>
@@ -50,3 +30,31 @@ export default class Increment extends React.Component {
         )
     }
 }
+
+// 数据层：
+const AsyncDis = () => {
+    // Thunk is actually a function...
+    // it can delay the dispatch... to be excuted...
+    return dispatch => {
+        setTimeout(() => {
+            // Yay! Can invoke sync or async actions with `dispatch`
+            dispatch({ type: LOGOUTCHECK })
+        }, 2000);
+    }
+}
+
+
+const mapDispatchToProps = (dispatch) => {
+    // 这个是用来修改store中的state。。。。
+    // 把dispatch方法挂载到props上。。。。。
+    // 创建实例。这样写会消耗内存。。。。
+    return {
+        Increment: () => dispatch({ type: LOGINCHECK }),
+        Decrement: () => dispatch({ type: LOGOUTCHECK }),
+        Decrement_async: () => dispatch(AsyncDis())
+    }
+}
+
+// Let this component connect with store....
+// connect 的时候顺序不能变。。。
+export default connect(null, mapDispatchToProps)(Increment)
