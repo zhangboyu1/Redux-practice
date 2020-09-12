@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 class NumDemo extends React.Component {
     constructor(props) {
         super(props);
-
     }
+
 
     render() {
         return (

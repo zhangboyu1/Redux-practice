@@ -1,8 +1,9 @@
 // 然后我们把action引进来
 import React from 'react';
-import { actions } from './actions'
 import { connect } from 'react-redux';
-const { LOGINCHECK, LOGOUTCHECK } = actions.type;
+import * as actionCreators from '../app/redux/ActionCreators'
+const { AsyncDisAction, IncrementAction, DecrementAction } = actionCreators
+
 class Increment extends React.Component {
     constructor(props) {
         super(props);
@@ -31,30 +32,16 @@ class Increment extends React.Component {
     }
 }
 
-// 数据层：
-const AsyncDis = () => {
-    // Thunk is actually a function...
-    // it can delay the dispatch... to be excuted...
-    return dispatch => {
-        setTimeout(() => {
-            // Yay! Can invoke sync or async actions with `dispatch`
-            dispatch({ type: LOGOUTCHECK })
-        }, 2000);
-    }
-}
-
-
 const mapDispatchToProps = (dispatch) => {
     // 这个是用来修改store中的state。。。。
     // 把dispatch方法挂载到props上。。。。。
     // 创建实例。这样写会消耗内存。。。。
     return {
-        Increment: () => dispatch({ type: LOGINCHECK }),
-        Decrement: () => dispatch({ type: LOGOUTCHECK }),
-        Decrement_async: () => dispatch(AsyncDis())
+        Increment: () => dispatch(IncrementAction()),
+        Decrement: () => dispatch(DecrementAction()),
+        Decrement_async: () => dispatch(AsyncDisAction())
     }
 }
 
-// Let this component connect with store....
 // connect 的时候顺序不能变。。。
 export default connect(null, mapDispatchToProps)(Increment)
