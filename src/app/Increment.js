@@ -2,7 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import * as actionCreators from '../app/redux/ActionCreators'
-const { AsyncDisAction, IncrementAction, DecrementAction } = actionCreators
+const { AsyncDisAction, IncrementAction, DecrementAction, AsyncFetchAction } = actionCreators
 
 class Increment extends React.Component {
     constructor(props) {
@@ -21,12 +21,17 @@ class Increment extends React.Component {
         this.props.Decrement_async()
     }
 
+    FetchData = () => {
+        this.props.FetchData_async()
+    }
+
     render() {
         return (
             <div>
                 <button onClick={this.handleNumValue1}>LoginCheck</button>
                 <button onClick={this.handleNumValue2}>LogoutCheck</button>
                 <button onClick={this.handleAsync}>Async</button>
+                <button onClick={this.FetchData}>Fetch</button>
             </div>
         )
     }
@@ -39,7 +44,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         Increment: () => dispatch(IncrementAction()),
         Decrement: () => dispatch(DecrementAction()),
-        Decrement_async: () => dispatch(AsyncDisAction())
+        Decrement_async: () => dispatch(AsyncDisAction()),
+        FetchData_async: () => dispatch(AsyncFetchAction())
     }
 }
 

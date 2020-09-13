@@ -7,22 +7,26 @@ export const IncrementAction = (text) => {
     }
 }
 
+
 export const DecrementAction = () => {
     return {
         type: 'DECREMENT',
     }
 }
 
+
 export const AsyncDisAction = () => {
-    // Thunk is actually a function...
-    // it can delay the dispatch... to be excuted...
-    return dispatch => {
-        setTimeout(() => {
-            // Yay! Can invoke sync or async actions with `dispatch`
-            // Here we can also use axios to fetch data.....from other end points.
-            dispatch({ type: 'DECREMENT' })
-        }, 2000);
+    return {
+        type: 'DECREMENT_ASYNC',
     }
 }
 
+export const AsyncFetchAction = () => {
+    return {
+        type: 'FETCHDATA_ASYNC',
+        payload: {
+            url: `https://api.darksky.net/forecast/d5a7dda54f011a00ba9ac7d784cc4581/48.8587,2.3429`,
 
+        }
+    }
+}
